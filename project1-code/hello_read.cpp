@@ -9,10 +9,10 @@ int main(int argc, char* argv[])
     const char* hname = std::getenv("HOSTNAME");
 
 
-    if (uname && hname && home)
+    if (hname)
     {
 
-        std::cout << "Your hostname is:  " << hname << '\n';
+        std::cout << "Your hostname is:       " << hname << '\n';
 
     }
     else

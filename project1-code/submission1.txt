@@ -6,6 +6,6 @@
         opensource slurm, an open-source batch system used by most HPC centres throughout the world — including CSCS in Lugano. Load Leveler is another batch system. 
         On the ETH HPC clusters, we use the SLURM batch system to manage computing jobs.
     
-    c) from the examples on the hpc wiki we can see commands can be executed with sbatch --wrap"command" also with possible IO like with sbatch --wrap"./main.cpp > du.out"
+    c) from the examples on the hpc wiki we can see commands can be executed with sbatch --wrap="command" also with possible IO like with sbatch --wrap="./main > du.out"
 
     d)
