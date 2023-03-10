@@ -8,4 +8,8 @@
     
     c) from the examples on the hpc wiki we can see commands can be executed with sbatch --wrap="command" also with possible IO like with sbatch --wrap="./main > du.out"
 
-    d)
+    when you use sbatch --wrap to submit a job and expect immediate output like I did, it doenst work like that. the job needs to go to euler, there in the queue at some
+        point your job gets executed and then you get an output file. 
+        
+        If you want direct output like in a terminal, you can use srun --pty bash. But it will take a while to get access to a node. Once you do, you can use the node like a terminal.
+            This is called an interactive node.
