@@ -27,6 +27,8 @@ void dgemm_opt(double* A, double* B, double* C) {
   // Processors has L1 chache 32KB, with cache block size 64bytes (8 doubles)
   // L1 cache size is 32 KB = 8 B * 4K --> 2^12 = 4096 doubles fits in cache
 
+  
+
   __m256d va, vb, vc, vd,ve;
   for (int n = 0; n < N; n+=1) {
     for (int k = 0; k < K; k+=1) {
@@ -44,6 +46,9 @@ void dgemm_opt(double* A, double* B, double* C) {
       // add
     }
   }
+  
+}
+
 
 
 int main(int argc, char** argv) {
