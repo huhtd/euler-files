@@ -88,7 +88,7 @@ void diffusion(const data::Field &s, data::Field &f)
 
         // inner north boundary
         
-        for(int = 1; i < iend; i++){ //inner north boundary // no j+1
+        for(int i = 1; i < iend; i++){ //inner north boundary // no j+1
             f(i,j) = -(4. + alpha) * s(i,j)
                         + s(i-1, j) + s(i+1, j)
                         + s(i, j-1) + bndN[i]
