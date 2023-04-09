@@ -1,5 +1,5 @@
 # by default select gcc
-CXX=g++
+CXX=clang
 CXXFLAGS=-O3 -fopenmp
 
 # if on a cray system, set flags according to the compilation enviroment
