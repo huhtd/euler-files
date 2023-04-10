@@ -53,16 +53,15 @@
  // x and y are vectors on length N
  double hpc_dot(Field const& x, Field const& y, const int N)
  {
-    #pragma omp parallel
-    {
+
         double result = 0;
-        #pragma omp for
+        #pragma omp parallel for
         {
             for (int i = 0; i < N; i++)
                 result += x[i] * y[i];
         }
         return result;
-    }
+
  }
 
  // computes the 2-norm of x
