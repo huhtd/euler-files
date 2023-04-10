@@ -55,9 +55,10 @@
  {
     #pragma omp parallel
     {
-        double result = 0;
-        #pragma omp reduction(+:result)
+        
+        #pragma omp for reduction(+:result)
         {
+            double result = 0;
             for (int i = 0; i < N; i++)
                 result += x[i] * y[i];
         }
