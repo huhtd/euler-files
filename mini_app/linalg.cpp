@@ -53,12 +53,14 @@
  // x and y are vectors on length N
  double hpc_dot(Field const& x, Field const& y, const int N)
  {
+    #pragma omp parallel
+    {
         double result = 0;
         //TODO
-        #pragma omp parallel for reduction(+:result)
+        #pragma omp parallel reduction(+:result)
         for (int i = 0; i < N; i++)
             result += x[i] * y[i];
-
+    }
         return result;
  }
 
