@@ -52,7 +52,7 @@ void cg_init(int nx)
 // #pragma omp parallel
 {
 }
-
+{
     // computes the inner product of x and y
     // x and y are vectors on length N
     double hpc_dot(Field const& x, Field const& y, const int N)
