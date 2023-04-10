@@ -107,17 +107,22 @@ int main(int argc, char* argv[])
     int max_newton_iters = 50;
     double tolerance     = 1.e-6;
 #pragma omp parallel
+{
+    int nTh = omp_get_num_threads();
+    #pragma omp single
+    {
     std::cout << "========================================================================" << std::endl;
     std::cout << "                      Welcome to mini-stencil!" << std::endl;
     std::cout << "version   :: C++ OpenMP" << std::endl;
-    std::cout << "threads   :: " << omp_get_num_threads() << std::endl;
+    std::cout << "threads   :: " << nTh << std::endl;
     std::cout << "mesh      :: " << options.nx << " * " << options.nx << " dx = " << options.dx << std::endl;
     std::cout << "time      :: " << nt << " time steps from 0 .. " << options.nt*options.dt << std::endl;;
     std::cout << "iteration :: " << "CG "          << max_cg_iters
                                  << ", Newton "    << max_newton_iters
                                  << ", tolerance " << tolerance << std::endl;;
     std::cout << "========================================================================" << std::endl;
-
+    }
+}
     // allocate global fields
     // allocate global fields
     y_new.init(nx,nx);
