@@ -75,9 +75,11 @@
         double result = 0;
 
         //TODO
-        #pragma omp for reduction(+:result)
+        #pragma omp for
+        {
         for(int i = 0; i < N; i++)
             result += x[i] * x[i];
+        }
     }
         return sqrt(result);
  }
