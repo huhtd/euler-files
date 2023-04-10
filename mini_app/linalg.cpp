@@ -54,7 +54,7 @@
  double hpc_dot(Field const& x, Field const& y, const int N)
  {
      double result = 0;
-
+    #pragma omp parallel for reduction (+:result)
      for (int i = 0; i < N; i++)
          result += x[i] * y[i];
 
