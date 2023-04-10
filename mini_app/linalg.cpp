@@ -56,7 +56,7 @@ void cg_init(int nx)
     double hpc_dot(Field const& x, Field const& y, const int N)
     {
         double result = 0;
-        #pragma omp for reduction(*:result)
+        #pragma omp for reduction(+:result)
         for (int i = 0; i < N; i++)
             result += x[i] * y[i];
 
