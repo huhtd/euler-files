@@ -195,7 +195,7 @@
          cg_init(nx);
 
      // epslion value use for matrix-vector approximation
-     double eps     = 1.e-8;
+     double eps     = 1.e-4;
      double eps_inv = 1. / eps;
 
      // allocate memory for temporary storage
