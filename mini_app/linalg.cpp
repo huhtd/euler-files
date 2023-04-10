@@ -76,10 +76,12 @@
         #pragma omp for reduction(+:result)
         for(int i = 0; i < N; i++)
             result += x[i] * x[i];
-
-        return sqrt(result);
     }
+        return sqrt(result);
  }
+
+
+
 
  // sets entries in a vector to value
  // x is a vector on length N
