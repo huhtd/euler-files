@@ -51,6 +51,7 @@ void cg_init(int nx)
 
 #pragma omp parallel
 {
+}
 
     // computes the inner product of x and y
     // x and y are vectors on length N
@@ -156,7 +157,7 @@ void cg_init(int nx)
         for(int i = 0; i < N; i++)
             y[i] = x[i];
     }
-}
+
 // conjugate gradient solver
 // solve the linear system A*x = b for x
 // the matrix A is implicit in the objective function for the diffusion equation
