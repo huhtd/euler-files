@@ -5,6 +5,7 @@
 #define LINALG_H
 
 #include "data.h"
+#include <omp.h>
 
 namespace linalg
 {
