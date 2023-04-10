@@ -10,6 +10,7 @@
  #include "operators.h"
  #include "stats.h"
  #include "data.h"
+ #include <omp.h>
 
  namespace linalg {
 
