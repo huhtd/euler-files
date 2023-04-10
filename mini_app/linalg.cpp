@@ -49,7 +49,8 @@ void cg_init(int nx)
 //  blas level 1 reductions
 ////////////////////////////////////////////////////////////////////////////////
 
-#pragma omp parallel{
+#pragma omp parallel
+    {
 
     // computes the inner product of x and y
     // x and y are vectors on length N
