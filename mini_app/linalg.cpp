@@ -48,32 +48,38 @@
  ////////////////////////////////////////////////////////////////////////////////
  //  blas level 1 reductions
  ////////////////////////////////////////////////////////////////////////////////
- #pragma omp parallel
- {
+
  // computes the inner product of x and y
  // x and y are vectors on length N
  double hpc_dot(Field const& x, Field const& y, const int N)
  {
-     double result = 0;
-    #pragma omp for reduction (+:result)
-     for (int i = 0; i < N; i++)
-         result += x[i] * y[i];
-
-     return result;
+    #pragma omp parallel
+    {
+        double result = 0;
+        #pragma omp for reduction (+:result)
+        {
+            for (int i = 0; i < N; i++)
+                result += x[i] * y[i];
+        }
+        return result;
+    }
  }
 
  // computes the 2-norm of x
  // x is a vector on length N
  double hpc_norm2(Field const& x, const int N)
  {
-     double result = 0;
+    #pragma omp parallel
+    {
+        double result = 0;
 
-     //TODO
-     #pragma omp for reduction (+:result)
-     for(int i = 0; i < N; i++)
-         result += x[i] * x[i];
+        //TODO
+        #pragma omp for reduction (+:result)
+        for(int i = 0; i < N; i++)
+            result += x[i] * x[i];
 
-     return sqrt(result);
+        return sqrt(result);
+    }
  }
 
  // sets entries in a vector to value
@@ -81,11 +87,13 @@
  // value is a scalar
  void hpc_fill(Field& x, const double value, const int N)
  {
-     //TODO
-     #pragma omp for
-     for(int i = 0; i < N; i++)
-         x[i] = value;
-
+    #pragma omp parallel
+    {
+        //TODO
+        #pragma omp for
+        for(int i = 0; i < N; i++)
+            x[i] = value;
+    }    
 
  }
 
@@ -98,10 +106,13 @@
  // alpha is a scalar
  void hpc_axpy(Field& y, const double alpha, Field const& x, const int N)
  {
-     //TODO
-     #pragma omp for
-     for(int i = 0; i < N; i++)
-         y[i] += alpha * x[i];
+    #pragma omp parallel
+    {
+        //TODO
+        #pragma omp for
+        for(int i = 0; i < N; i++)
+            y[i] += alpha * x[i];
+    }
  }
 
  // computes y = x + alpha*(l-r)
@@ -110,10 +121,13 @@
  void hpc_add_scaled_diff(Field& y, Field const& x, const double alpha,
      Field const& l, Field const& r, const int N)
  {
-     //TODO
-     #pragma omp for
-     for(int i = 0; i < N; i++)
-         y[i] = x[i] + alpha * (l[i]-r[i]);
+    #pragma omp parallel
+    {
+        //TODO
+        #pragma omp for
+        for(int i = 0; i < N; i++)
+            y[i] = x[i] + alpha * (l[i]-r[i]);
+    }
 
  }
 
@@ -123,10 +137,13 @@
  void hpc_scaled_diff(Field& y, const double alpha,
      Field const& l, Field const& r, const int N)
  {
-     //TODO
-     #pragma omp for
-     for(int i = 0; i < N; i++)
-         y[i] = alpha * (l[i]-r[i]);
+    #pragma omp parallel
+    {
+        //TODO
+        #pragma omp for
+        for(int i = 0; i < N; i++)
+            y[i] = alpha * (l[i]-r[i]);
+    }
  }
 
  // computes y := alpha*x
@@ -161,7 +178,7 @@
      for(int i = 0; i < N; i++)
          y[i] = x[i];
  }
- }
+ 
 
  // conjugate gradient solver
  // solve the linear system A*x = b for x
