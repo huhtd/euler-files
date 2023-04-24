@@ -158,7 +158,7 @@ int main (int argc, char** argv)
 		png_write (pPng, "mandel.png");
 	}
 
-	TODO: uncomment after you implement createPartition(int mpi_rank, int mpi_size)
+	// TODO: uncomment after you implement createPartition(int mpi_rank, int mpi_size)
 	MPI_Comm_free(&p.comm);
 	free(c);
 	MPI_Finalize();
