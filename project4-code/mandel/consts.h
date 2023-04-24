@@ -43,18 +43,29 @@ and the coordinates of the current MPI process (p.x, p.y).
 Partition createPartition(int mpi_rank, int mpi_size)
 {
     Partition p;
+    int dims[2]={0,0};
 
     // TODO: determine size of the grid of MPI processes (p.nx, p.ny), see MPI_Dims_create()
-    p.ny = 1;
-    p.nx = 1;
+    MPI_Dims_create(mpi_size, 2, dims);
+    p.ny = dims[1];
+    p.nx = dims[0];
+
 
     // TODO: Create cartesian communicator (p.comm), we do not allow the reordering of ranks here, see MPI_Cart_create()
     MPI_Comm comm_cart = MPI_COMM_WORLD;
+    int periods[2]={0,0};
+    int rank, size;
+
+    MPI_Cart_create(MPI_COMM_WORLD,2,dims,periods,0,&comm_cart);
     p.comm = comm_cart;
+
     
     // TODO: Determine the coordinates in the Cartesian grid (p.x, p.y), see MPI_Cart_coords()
-    p.y = 0;
-    p.x = 0;
+    int coords[2]={0,0};
+
+    MPI_Cart_coords(p.comm, mpi_rank, 2, coords);
+    p.y = coords[1];
+    p.x = coords[0];
 
     return p;
 }
@@ -75,8 +86,11 @@ Partition updatePartition(Partition p_old, int mpi_rank)
     p.comm = p_old.comm;
     
     // TODO: update the coordinates in the cartesian grid (p.x, p.y) for given mpi_rank, see MPI_Cart_coords()
-    p.y = 0;
-    p.x = 0;
+    int coords[2]={0,0};
+
+    MPI_Cart_coords(p.comm, mpi_rank, 2, coords);
+    p.y = coords[1];
+    p.x = coords[0];
 
     return p;
 }
@@ -92,18 +106,30 @@ Domain createDomain(Partition p)
     Domain d;
     
     // TODO: compute size of the local domain
-    d.nx = IMAGE_WIDTH;
-    d.ny = IMAGE_HEIGHT;
+    d.nx = IMAGE_WIDTH/(p.nx);
+    
+    if(p.x == p.nx - 1){
+        int diff = IMAGE_WIDTH%d.nx;
+        d.nx += diff;
+    }
+
+    d.ny = IMAGE_HEIGHT/(p.ny);
+    
+    if(p.y == p.ny - 1){
+        int diff = IMAGE_HEIGHT%d.ny;
+        d.ny += diff;
+    }
 
     // TODO: compute index of the first pixel in the local domain
-    d.startx = 0;
-    d.starty = 0;
+    d.startx = p.x * (IMAGE_WIDTH/(p.nx));
+    d.starty = p.y * (IMAGE_HEIGHT/(p.ny));
 
     // TODO: compute index of the last pixel in the local domain
-    d.endx = IMAGE_WIDTH - 1;
-    d.endy = IMAGE_HEIGHT - 1;
+    d.endx = d.startx + d.nx - 1;
+    d.endy = d.starty + d.ny - 1;
 
     return d;
+
 }
 
 
