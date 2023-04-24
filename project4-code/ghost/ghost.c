@@ -77,32 +77,42 @@ int main(int argc, char *argv[])
     }
 
     // TODO: set the dimensions of the processor grid and periodic boundaries in both dimensions
-    //dims[0]=
-    //dims[1]=
-    //periods[0]=
-    //periods[1]=
+    dims[0]=4
+    dims[1]=4
+    periods[0]=1
+    periods[1]=1
 
     // TODO: Create a Cartesian communicator (4*4) with periodic boundaries (we do not allow
     // the reordering of ranks) and use it to find your neighboring
     // ranks in all dimensions in a cyclic manner.
-    
+    MPI_Cart_create(MPI_COMM_WORLD,2,dims,periods,0,&comm_cart);
     // TODO: find your top/bottom/left/right neighbor using the new communicator, see MPI_Cart_shift()
     // rank_top, rank_bottom
     // rank_left, rank_right
 
+    MPI_Cart_shift(comm_cart, 1, 1, &rank_left, &rank_right);
+    MPI_Cart_shift(comm_cart, 0, 1, &rank_top, &rank_bottom);
+
     //  TODO: create derived datatype data_ghost, create a datatype for sending the column, see MPI_Type_vector() and MPI_Type_commit()
     // data_ghost
 
+    MPI_Type_vector(SUBDOMAIN, 1, DOMAINSIZE, MPI_DOUBLE, &data_ghost);
+    MPI_Type_commit(&data_ghost);
+
     //  TODO: ghost cell exchange with the neighbouring cells in all directions
     //  use MPI_Irecv(), MPI_Send(), MPI_Wait() or other viable alternatives
-
     //  to the top
-    
+    MPI_Sendrecv(&data[DOMAINSIZE+1], SUBDOMAIN, MPI_DOUBLE, rank_top, 0, &data[(DOMAINSIZE-1)*DOMAINSIZE+1], SUBDOMAIN, MPI_DOUBLE, rank_bottom, 0, comm_cart, MPI_STATUS_IGNORE);
+
     //  to the bottom
-    
+    MPI_Sendrecv(&data[(DOMAINSIZE-2)*DOMAINSIZE+1], 6, MPI_DOUBLE, rank_bottom, 0, &data[1], 6, MPI_DOUBLE, rank_top, 0, comm_cart, MPI_STATUS_IGNORE);
+
     //  to the left
+    MPI_Sendrecv(&data[DOMAINSIZE+1], 1, data_ghost, rank_left, 0, &data[2*DOMAINSIZE-1], 1, data_ghost, rank_right, 0, comm_cart, MPI_STATUS_IGNORE);
     
     //  to the right
+    MPI_Sendrecv(&data[2*DOMAINSIZE-2], 1, data_ghost, rank_right, 0, &data[DOMAINSIZE], 1, data_ghost, rank_left, 0, comm_cart, MPI_STATUS_IGNORE);
+    
     
 
     if (rank==9) {
@@ -116,8 +126,8 @@ int main(int argc, char *argv[])
     }
 
     // TODO: uncomment when done with tasks above
-    //MPI_Type_free(&data_ghost);
-    //MPI_Comm_free(&comm_cart);
+    MPI_Type_free(&data_ghost);
+    MPI_Comm_free(&comm_cart);
     MPI_Finalize();
 
     return 0;
