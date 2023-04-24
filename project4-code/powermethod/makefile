@@ -1,9 +1,9 @@
 CC=mpicc
-CFLAGS=-O3
+CFLAGS=-O3 -lm
 
 all: powermethod
 
-powermethod: powermethod.c
+powermethod: powermethod_euler.c
 	$(CC) $(CFLAGS) $^ -o $@
 
 clean:
