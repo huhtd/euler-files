@@ -77,10 +77,10 @@ int main(int argc, char *argv[])
     }
 
     // TODO: set the dimensions of the processor grid and periodic boundaries in both dimensions
-    dims[0]=4
-    dims[1]=4
-    periods[0]=1
-    periods[1]=1
+    dims[0]=4;
+    dims[1]=4;
+    periods[0]=1;
+    periods[1]=1;
 
     // TODO: Create a Cartesian communicator (4*4) with periodic boundaries (we do not allow
     // the reordering of ranks) and use it to find your neighboring
