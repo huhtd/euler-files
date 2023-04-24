@@ -14,14 +14,12 @@
  *                                                              *
  ****************************************************************/
 
+
 #include "hpc-power.h"
-
-#include <math.h>
-
-#include <stdlib.h>
-
 #include <stdio.h>
+#include <math.h>
 #include <mpi.h>
+#include <stdlib.h>
 
 double norm(double* vec, int N){
     double res = 0;
@@ -56,8 +54,6 @@ void matVec(double* x, double* A, int N, int ny){
     free(x_temp);
 }
 
-
-
 void powerMethod(double* A, double* x, int k, int N, int ny){
 
     int my_rank, size;
@@ -85,8 +81,6 @@ void powerMethod(double* A, double* x, int k, int N, int ny){
     }
 }
 
-
-
 int main (int argc, char *argv[])
 {
     int my_rank, size;
@@ -100,8 +94,7 @@ int main (int argc, char *argv[])
     int k = argc > 1 ? atoi(argv[1]) : 1000;
     int N = argc > 2 ? atoi(argv[2]) : 1<<12;
     int nx, ny;
-
-
+    
 
     MPI_Init(&argc, &argv);
 
@@ -109,13 +102,10 @@ int main (int argc, char *argv[])
 
     MPI_Comm_size(MPI_COMM_WORLD, &size);
 
-
     if(my_rank == 0) {
         printf("Ki   = %d\n", k);
         printf("Ni   = %d\n", N);
     }
-
-
 
     /* This subproject is about to write a parallel program to
        multiply a matrix A by a vector x, and to use this routine in
@@ -124,7 +114,6 @@ int main (int argc, char *argv[])
        call routines that we supply to generate matrices, record
        timings, and validate the answer.
     */
-
 
     nx = my_rank;
     ny = N/size;
@@ -148,12 +137,12 @@ int main (int argc, char *argv[])
 
     if(my_rank == 0) {
         int correct = hpc_verify(x, N, time_end);
+        //printf("Answer is correct: %d \n", correct);
     }
 
 
     MPI_Finalize();
     free(A);
     free(x);
-
     return 0;
 }
