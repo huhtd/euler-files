@@ -124,7 +124,7 @@ Domain createDomain(Partition p)
     d.nx = IMAGE_WIDTH;
     d.ny = IMAGE_HEIGHT/nparts * partition[p.y];
     
-    //last process gets the frst of the image additional
+    //last process gets the first of the image additional
     if(p.y == p.ny - 1){
         int diff = IMAGE_HEIGHT%nparts;
         d.ny += diff;
