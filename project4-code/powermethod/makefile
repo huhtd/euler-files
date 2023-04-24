@@ -3,7 +3,7 @@ CFLAGS=-O3
 
 all: powermethod
 
-powermethod: powermethod.c
+powermethod: powermethod_euler.c
 	$(CC) $(CFLAGS) $^ -o $@
 
 clean:
