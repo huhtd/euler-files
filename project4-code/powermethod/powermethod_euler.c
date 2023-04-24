@@ -97,6 +97,11 @@ int main (int argc, char *argv[])
     MPI_Status  status;
     MPI_Request request;
 
+    int k = argc > 1 ? atoi(argv[1]) : 1000;
+    int N = argc > 2 ? atoi(argv[2]) : 1<<12;
+    int nx, ny;
+
+
 
     MPI_Init(&argc, &argv);
 
